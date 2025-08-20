@@ -6,9 +6,10 @@ import network
 import asyncio
 import socket
 import time
-import random
-from machine import Pin
 import utime
+import ntptime
+from machine import Pin
+from machine import RTC
 import json
 
 outSVs = []
@@ -43,13 +44,40 @@ def write_config():
         print("Configuration Write Error")
 
 def init_io():
+    global config
+    global outSVs
     #init sv pin assignments
     for i in config['sv pins']:
         outSVs.append(Pin(i, Pin.OUT))
+
+def get_time():
+    #get time zone offset in seconds
+    timezone_offset_seconds = config['time_zone_offset'] * 60 * 60
+    # Get current UTC time from RTC
+    current_utc_seconds = utime.time()
+    # Calculate local time
+    local_time_seconds = current_utc_seconds + timezone_offset_seconds
+    # Convert to a readable format if needed
+    local_time_tuple = utime.localtime(local_time_seconds)
+    return local_time_tuple
+    
+def set_time():
+    global config
+    # Synchronize the time
+    try:
+        ntptime.settime()
+        print("Time synchronized successfully!")
+        local_time_tuple = get_time()
+        write_auto_run_log("Local time set to " + str(local_time_tuple))
+        return True
+    except OSError as e:
+        print(f"Error synchronizing time: {e}")
+        return False
     
 def write_auto_run_log(s):
+    global auto_run_log
     #get current day of week and time
-    tm_now = time.localtime()
+    tm_now = get_time()
     tm_now_weekday = config['days'][tm_now[6]]['name']
     tm_now_hh_mm = "{:02d}:{:02d}".format(tm_now[3], tm_now[4])
     auto_run_log.append(tm_now_weekday + ' ' + tm_now_hh_mm + ': ' + s)
@@ -368,6 +396,8 @@ def webpage_auto_prog():
         </form>
         <form id='frmAutoProg'>
             <input type='hidden' id='inAutoProg' name='inAutoProg' value=''><br>
+            <h2>Time Zone Offset</h2>
+            <input type='number' id='time_zone_offset' name='time_zone_offset' min='-14' max='14' step='1' value='""" + str(config['time_zone_offset']) + """'>
             <h2>Valve On Duration</h2>
             <table>
                 <tr>
@@ -380,7 +410,7 @@ def webpage_auto_prog():
         html = html + """
                 <tr>
                     <td>""" + config['sv names'][i] + """</td>
-                    <td><input type='number' id='""" + dur + """_""" + str(i) + """' name='""" + dur + """_""" + str(i) + """' min='1' max='90' step='1' value='""" + dur + """'</td>
+                    <td><input type='number' id='""" + dur + """_""" + str(i) + """' name='""" + dur + """_""" + str(i) + """' min='1' max='90' step='1' value='""" + dur + """'></td>
                 </tr>"""
         i+=1
         
@@ -623,11 +653,14 @@ def update_auto_prog(request):
     #get button
     temp_list = request_list[0].split('=')
     button = temp_list[1]
+    #update time zone offset
+    temp_list = request_list[1].split('=')
+    config['time_zone_offset'] = int(temp_list[1])
     #save durations button pressed
     if button == 'btn_dur_save':
         # update durations
         for i in range(len(config['auto']['duration'])):
-            temp_list = request_list[i+1].split('=')
+            temp_list = request_list[i+2].split('=')
             config['auto']['duration'][i] = temp_list[1]
         i = 0
     #start time enable button pressed
@@ -644,7 +677,7 @@ def update_auto_prog(request):
                 else:
                     tbl[btn_day + '_class'] = 'btn_off_small'
     # update times
-    i=9
+    i=10
     for tbl in config['auto']['start_time']:
         for day in config['days']:
             temp_list = request_list[i].split('=')
@@ -660,7 +693,7 @@ def auto_run_handler():
     #update SV_on_list
     #-----------------
     #get current day of week and time
-    tm_now = time.localtime()
+    tm_now = get_time()
     tm_now_weekday = config['days'][tm_now[6]]['name']
     tm_now_hh_mm = "{:02d}:{:02d}".format(tm_now[3], tm_now[4])
     #iterate auto start time lists
@@ -828,8 +861,14 @@ async def SV_control():
         await asyncio.sleep(1)
 
 async def main():    
+
     #init wifi
     if not init_wifi(config['wifi']['ssid'], config['wifi']['pwd']):
+        print('Exiting program.')
+        return
+
+    #set time
+    if not set_time():
         print('Exiting program.')
         return
     

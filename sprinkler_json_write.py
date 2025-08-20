@@ -9,9 +9,11 @@ import json
 #       and ['auto']['duration']. The list lengths should match the number of sprinkler valves.
 config = {
     "wifi": {
-        "ssid": "",
-        "pwd": ""
+        "ssid": "west",
+        "pwd": "21571BalermaMV@CA"
     },
+    #offset hours from UTC
+    "time_zone_offset": -6,
     "days": [
         {'title': 'Monday', 'name': 'mon'},
         {'title': 'Tuesday', 'name': 'tue'},
