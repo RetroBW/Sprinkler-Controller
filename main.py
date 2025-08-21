@@ -23,6 +23,7 @@ SV_last_on_time = ''
 config = []
 
 last_mode = ''
+auto_run_MEM = False
 
 #auto run log
 auto_run_log = []
@@ -163,7 +164,7 @@ def webpage_off():
     <body>
         <h1>Sprinkler Control</h1>
         <div id='div_time'>
-        <h2>Time: <span id='time'></span></h2>
+        <h2><span id='time'></span></h2>
         </div>
         <form id='frmMode'>
             <h2>Mode</h2>
@@ -268,7 +269,7 @@ def webpage_man():
     <body>
         <h1>Sprinkler Control</h1>
         <div id='div_time'>
-        <h2>Time: <span id='time'></span></h2>
+        <h2><span id='time'></span></h2>
         </div>
         <form id='frmMode'>
             <h2>Mode</h2>
@@ -379,7 +380,7 @@ def webpage_auto_prog():
         <body>
         <h1>Sprinkler Control</h1>
         <div id='div_time'>
-        <h2>Time: <span id='time'></span></h2>
+        <h2><span id='time'></span></h2>
         </div>
         <form id='frmMode'>
             <h2>Mode</h2>
@@ -540,7 +541,7 @@ def webpage_auto_run():
     <body>
         <h1>Sprinkler Control</h1>
         <div id='div_time'>
-        <h2>Time: <span id='time'></span></h2>
+        <h2><span id='time'></span></h2>
         </div>
         <form id='frmMode'>
             <h2>Mode</h2>
@@ -700,7 +701,7 @@ def auto_run_handler():
     if SV_last_on_time != tm_now_hh_mm:
         for tbl in config['auto']['start_time']:
             #check for matching start time
-            if tm_now_hh_mm == tbl[tm_now_weekday + '_start']:
+            if tm_now_hh_mm == tbl[tm_now_weekday + '_start'] and tbl[tm_now_weekday + '_class'] == 'btn_on_small':
                 for sv in config['auto']['group'][tbl['group']]:
                     #append sv to SV_on_list
                     if not sv in SV_on_list:
@@ -813,6 +814,7 @@ async def SV_control():
     global config
     global SV_off_time
     global last_mode
+    global auto_run_MEM
 
     # Toggle SV state
     while True:
@@ -845,12 +847,21 @@ async def SV_control():
         # auto run mode
         if (config['mode'] == 'auto'):
             if (config['auto']['mode'] == 'run'):
+                if auto_run_MEM == False:
+                    auto_run_MEM = True
+                    write_auto_run_log('Auto-Run started')
                 auto_run_handler()
             else:
+                if auto_run_MEM == True:
+                    auto_run_MEM = False
+                    write_auto_run_log('Auto-Run stopped')
                 SV_on_list.clear()
                 for outSV in outSVs:
                     outSV.value(0)
         else:
+            if auto_run_MEM == True:
+                auto_run_MEM = False
+                write_auto_run_log('Auto-Run stopped')
             SV_on_list.clear()
 
         # off mode
