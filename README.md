@@ -14,7 +14,7 @@ The manual mode page allows a single valve to manually be turned on or off. The 
 ### Auto Program Mode
 ![Alt text](assets/images/auto_program_page_1_of_2.png?raw=true "Auto Program 1 of 2")<br>
 ![Alt text](assets/images/auto_program_page_2_of_2.png?raw=true "Auto Program 2 of 2")<br>
-The auto program page automatic valve durations to be defined, valve group start times for each day to be defined, and days to be enabled or disabled. After editing a valve duration or valve group start time the save button must be pressed to save changes.
+The auto program page allows automatic valve durations to be defined, valve group start times for each day to be defined, and days to be enabled or disabled. After editing a valve duration or valve group start time the save button must be pressed to save changes.
 ### Auto Run Mode
 ![Alt text](assets/images/auto_run_page.png?raw=true "Auto Run")<br>
 Auto run mode will execute the defined automatic operation. The auto run page shows if a valve is currently being run, and if any valves are queued to be run. There is also an event log at the bottom of the page to allow previous actions to be viewed.
