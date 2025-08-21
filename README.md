@@ -4,6 +4,7 @@ Sprinkler Controller - Raspberry Pi Pico 2W programmed in Micro Python
 This raspberry Pi Pico 2W based sprnkler controller application uses a web based interface, which may be connected to from any browser on your local network. The raspberry pi runs a second background task that will monitor time, and turn sprinkler system valves on or off as required. There is a manual mode where valves may be run for a predefined duration, or be toggled on or off. Auto - Program mode provides an interface for sprnkler system programming. Auto - Run mode will monitor the time and automatically control sprinkler valves.
 ## Initial Configuration
 Raspberry Pi and sprinkler system control can be configured initially using the sprinkler_json_write.py program. You can define network credentials, the number of valves (sv's), valve names, valve groups (ie. lawn), gpio assigned and more. You'll find a commmented JSON format variable that can be modified as necessary. The raspberry pi will save any modifications to the sprinkler controller programming to sprinkler_config.json on the devices storage for persistence. 
+
 The configuration of the upladed project is for a 8 valve system controlled by gpio outputs 0 - 7. There are 3 valve groups defined - lawn, drip, and garden. All this can be modified to fit your needs by modifying sprinkler_config.json, by modifying and executing the sprinkler_json_write.py program.
 ## Operation
 ### Mode Control Webpage
@@ -16,6 +17,7 @@ The manual mode page allows a single valve to manually be turned on or off. The 
 ![Alt text](assets/images/auto_program_page_1_of_2.png?raw=true "Auto Program 1 of 2")<br>
 ![Alt text](assets/images/auto_program_page_2_of_2.png?raw=true "Auto Program 2 of 2")<br>
 The auto program page allows automatic valve durations to be defined, valve group start times for each day to be defined, and days to be enabled or disabled. After editing a valve duration or valve group start time the save button must be pressed to save changes.
+
 UTC time is automatically determined at startup by accessing an internet based time server. The time zone offset provides the means to define local time relative to UTC, including both the time zone and DST. 
 ### Auto Run Mode
 ![Alt text](assets/images/auto_run_page.png?raw=true "Auto Run")<br>
