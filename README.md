@@ -13,7 +13,7 @@ The mode control page is used to select from Off, Manual, and Auto modes.
 The manual mode page allows a single valve to manually be turned on or off. The duration field allows the runtime of the valve to be defined. Clicking on the valve again while it is running will turn the valve off. Clicking on another valve while a valve is running will turn the previous valve off and the new valve on.
 ### Auto Program Mode
 ![Alt text](assets/images/auto_program_page_1_of_2.png?raw=true "Auto Program 1 of 2")<br>
-![Alt text](assets/images/auto_program_page_1_of_2.png?raw=true "Auto Program 2 of 2")<br>
+![Alt text](assets/images/auto_program_page_2_of_2.png?raw=true "Auto Program 2 of 2")<br>
 The auto program page automatic valve durations to be defined, valve group start times for each day to be defined, and days to be enabled or disabled. After editing a valve duration or valve group start time the save button must be pressed to save changes.
 ### Auto Run Mode
 ![Alt text](assets/images/auto_run_page.png?raw=true "Auto Run")<br>
