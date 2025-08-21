@@ -9,7 +9,7 @@ Raspberry Pi and sprinkler system control can be configured initially using the 
 ![Alt text](assets/images/mode_control_page.png?raw=true "Mode Control")<br>
 The mode control page is used to select from Off, Manual, and Auto modes.
 ### Manual Mode Webpage
-![Alt text](assets/images/manual_mode_page.png?raw=true "Manual Mode")<br>
+![Alt text](assets/images/manual_control_page.png?raw=true "Manual Control")<br>
 The manual mode page allows a single valve to manually be turned on or off. The duration field allows the runtime of the valve to be defined. Clicking on the valve again while it is running will turn the valve off. Clicking on another valve while a valve is running will turn the previous valve off and the new valve on.
 ### Auto Program Mode
 ![Alt text](assets/images/auto_program_page_1_of_2.png?raw=true "Auto Program 1 of 2")<br>
