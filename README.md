@@ -5,5 +5,5 @@ This raspberry Pi Pico 2W based sprnkler controller uses a web based interface, 
 ## Initial Configuration
 Raspberry Pi and sprinkler system control can be configured initially using the sprinkler_json_write.py program. You can define network credentials, the number of valves (sv's), valve names, valve groups (ie. lawn), gpio assigned and more. You'll find a commmented JSON format variable that can be modified as necessary. The raspberry pi will save any modifications to the sprinkler controller programming to sprinkler_config.json on the devices storage for persistence. 
 ## Operation
-	/assets/images/mode control page.png
+	https://github.com/RetroBW/Sprinkler-Controller/blob/main/assets/images/mode control page.png
  The mode control page is used to select from Off, Manual, and Auto modes.
