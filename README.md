@@ -5,7 +5,7 @@ This raspberry Pi Pico 2W based sprnkler controller application uses a web based
 ## Initial Configuration
 Raspberry Pi and sprinkler system control can be configured initially using the sprinkler_json_write.py program. You can define network credentials, the number of valves (sv's), valve names, valve groups (ie. lawn), gpio assigned and more. You'll find a commmented JSON format variable that can be modified as necessary. The raspberry pi will save any modifications to the sprinkler controller programming to sprinkler_config.json on the devices storage for persistence. 
 
-The configuration of the upladed project is for a 8 valve system controlled by gpio outputs 0 - 7. There are 3 valve groups defined - lawn, drip, and garden. All this can be modified to fit your needs by modifying sprinkler_config.json. Modifying and executing the sprinkler_json_write.py program provides an easy means of doing so.
+The configuration of the uploaded project is for a 8 valve system controlled by gpio outputs 0 - 7. There are 3 valve groups defined - lawn, drip, and garden. All this can be modified to fit your needs by modifying sprinkler_config.json. Modifying and executing the sprinkler_json_write.py program provides an easy means of doing so.
 ## Operation
 ### Mode Control Webpage
 ![Alt text](assets/images/mode_control_page.png?raw=true "Mode Control")<br>
